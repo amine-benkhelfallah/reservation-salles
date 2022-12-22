@@ -11,10 +11,13 @@
         if (isset($_POST['titre']) && ($_POST['debut'] !== '---') && ($_POST['fin'] !== '---') ){
             
             $titre = $_POST['titre'];
+            $titre = mysqli_real_escape_string($connect, $titre); 
             $debut = $_POST['debut'];
             $fin = $_POST['fin'];
             $date = $_POST['date'];
             $description = $_POST['description'];
+            $description = mysqli_real_escape_string($connect, $description);  //= mysqli_real_escape_string pour l'apostrophe
+            
 
             //récuperation de id_utilisateur de la db
             $requete = ("SELECT id FROM utilisateurs WHERE `login` = '$login' ") ;
