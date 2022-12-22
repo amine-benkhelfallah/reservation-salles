@@ -82,7 +82,7 @@
 
                                     } else {
                                         header('Location: reservation.php?message=5');  
-                                        //echo "Erreur : La date et(ou) heure choisie est une date antérieure à la date actuelle". '<br>'. '<br>';
+                                        //echo "Pour des raisons d'organisation Vous ne pouvez pas reserver le même jour ". '<br>'. '<br>';
                                     }   
 
 
@@ -174,7 +174,7 @@
                         echo "<center><STRONG><p style='color:red'>Nous sommes fermés les week-ends</p></STRONG></center>";
                     }
                     if($message == 5){
-                        echo "<center><STRONG><p style='color:red'>Erreur : La date et(ou) heure choisie est une date antérieure à la date actuelle</p></STRONG></center>";  
+                        echo "<center><STRONG><p style='color:red'>Pour des raisons d'organisation Vous ne pouvez pas reserver le même jour </p></STRONG></center>";  
                     }
                     if($message == 6){
                         echo "<center><STRONG><p style='color:red'>Date de réservation est antérieure à la date actuelle</p></STRONG></center>";
@@ -191,7 +191,7 @@
     <?php endif ?>
 <!-- Ci-dessous j'affiche le formulaire avec les infos de la résa. Accessible seulement si le visiteur est connecté. -->
 
-<?php if(isset($_SESSION['login']) && isset($_GET['id'])): 
+    <?php if(isset($_SESSION['login']) && isset($_GET['id'])): 
     
                 //récuperation de id_utilisateur de la db
                 $reservation_id = $_GET['id'];
@@ -205,126 +205,21 @@
                 $fin = $reponse_fetch_array['fin'];
     ?>
 
+    <form action="" method="POST" class ="formulaire">
+            <h1><?= $titre ?></h1>
+            <h2> Créé par :  <?= $login ?> </h2>
+            <h3>Description :</h3>                
+            <p> <?= $description ?> </p>
+            <h3>Début de réservation :</h3>
+            <p> <?= $debut ?> </p>
+            <h3>Fin de réservation:</h3>
+            <p> <?= $fin ?> </p>
+    </form>
 
 
-        <form action="" method="POST" class ="formulaire">
-                <h1><?= $titre ?></h1>
+   
 
-                <h2> Créé par :  <?= $login ?> </h2>
-
-                <h3>Description :</h3>                
-                <p> <?= $description ?> </p>
-
-                <h3>Début de réservation :</h3>
-                <p> <?= $debut ?> </p>
-
-                <h3>Fin de réservation:</h3>
-                <p> <?= $fin ?> </p>
-
-<!-- Si la résa appartient à l'utilisateur connecté, j'affiche ci-dessous 2 boutons: supprimer et modifier. -->
-           
-        </form>
-<!-- Si l'utilisateur a cliqué pour modifier sa résa, j'affiche ci-dessous le form de modification en affichant les détails actuels de la résa -->
-
-            <?php elseif(isset($_GET['modify_resa'])): ?>
-
-        <form method="post" class ="formulaire">
-
-            <h2> <?= 'Modifier mon évènement' ?> </h2>
-
-            <h3>
-                <?php 
-                    if(isset($_POST['modify'])) { 
-                        echo $message;
-                    }
-                ?>
-            </h3>
-                    
-            <p>Utilisateur : <?php if(isset($_SESSION['login'])) echo $_SESSION['login'] ?> </p>
-            <br>
-
-            <label for="titre">Titre :</label>
-            <textarea name="titre"> <?= $result_events[0][1] ?> </textarea>
-            <br>
-                
-            <label for="date_debut_event">Date de début:</label>
-             
-
-            <input type="date" name="date_debut_event" value="<?= $date_debut_modify->format('Y-m-d') ?>" 
-            min="<?= $date_min->format('Y-m-d') ?>">
-            <br>
-
-            <label for="start_time">Heure de début :</label>
-            <select name="start_time">
-
-                <?php for($x = 8; $x < 19; $x++) {
-
-                    if($x < 10) {
-                        if($x == $date_debut_modify->format('H')) {
-                            echo '<option selected>0' . $x . '</option>';
-                        }
-                        else {
-                            echo '<option>0' . $x . '</option>';
-                        }
-                    }
-
-                    else {
-                        if($x == $date_debut_modify->format('H')) {
-                            echo '<option selected>' . $x . '</option>';
-                        }
-                        else {
-                            echo '<option>' . $x . '</option>';
-                        }
-                    }
-                }
-                    ?>
-            </select>
-            <br>
-                
-            <label for="date_fin_event">Date de fin:</label>
-            <input type="date" name="date_fin_event" value="<?= $date_fin_modify->format('Y-m-d') ?>" 
-            min="<?= $date_min->format('Y-m-d') ?>">
-            <br>
-
-            <label for="end_time">Heure de fin :</label>
-            <select name="end_time">
-
-                <?php for($x = 9; $x < 20; $x++) {
-
-                    if($x < 10) {
-                        if($x == $date_fin_modify->format('H')){
-                            echo '<option selected>0' . $x . '</option>';
-                        }
-                        else{
-                            echo '<option>0' . $x . '</option>';
-                        }                         
-                    }
-
-                    else {
-                        if($x == $date_fin_modify->format('H')){
-                            echo '<option selected>' . $x . '</option>';
-                        }
-                        else {
-                            echo '<option>' . $x . '</option>';
-                        }
-                    }
-                }
-                ?>
-            </select>
-            <br>
-           
-            <label for="desc">Description : </label>
-            <textarea name="desc"> <?= $result_events[0][2] ?> </textarea>
-            <br>
-
-            <button type="submit" name="modify">Modifier</button>
-        </form>  
-
-        <?php else: ?>
-
-            <h1>Créneau horaire</h1>
-
-        <?php endif ?>
+    <?php endif ?>
         
     </main> 
 
@@ -333,5 +228,3 @@
 </body>
 </html>
 
-    </main>
-      <?php include 'footer.php'; //insertion de header ?>
