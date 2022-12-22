@@ -2,7 +2,6 @@
 
 include 'connect.php';
 
-include 'connec.php';
 
 // Ci-dessous ma requête pour récupérer les évènements programmés.
 $request_events = "SELECT reservations.id, reservations.titre, reservations.debut, reservations.fin, reservations.id_utilisateur, utilisateurs.id, utilisateurs.login 
